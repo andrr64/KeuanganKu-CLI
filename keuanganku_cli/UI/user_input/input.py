@@ -1,7 +1,11 @@
 from error.invalid_input import *
+from error.range_error import *
 
-def getInt(prompt : str) -> any:
+def getInt(prompt : str, expectedRange = None) -> int:
     try:
-        return int(input(prompt))
+        userInput = int(input(prompt))
     except:
-        return KErrorInvalidInputType
+        raise KErrorInvalidInputType
+    if expectedRange is not None and userInput not in expectedRange:
+        raise KErrorRange(expectedRange)
+    return userInput

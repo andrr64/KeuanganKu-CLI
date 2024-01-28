@@ -1,7 +1,10 @@
 from UI.utility.clearscreen import *
 from UI.utility.ui_print import *
 from UI.user_input.input import getInt
+
 from error.invalid_input import *
+from error.range_error import * 
+
 from UI.error_handler.invalid_input import *
 from database.db import KDatabase
 
@@ -34,10 +37,11 @@ def ui_homepage(db : KDatabase):
         for i in range(__routes_length__):
             kprint(f"{i + 1}. {__routes__[i][0]}")
         kline()
-        userInput = getInt(f"Choose [1-{__routes_length__}] : ")
-        if isinstance(userInput, KErrorInvalidInputType):
-            errorHandlerInvalidInputType()
-        else:
+        try:
+            userInput = getInt(f"Choose [1-{__routes_length__}] : ", range(1, __routes_length__ + 1))
+            clrscreen()
             if __routes__[userInput-1][1]() == 0:
-                clrscreen()
                 break
+        except Exception as E:
+            clrscreen()
+            kprintInfo(E)
