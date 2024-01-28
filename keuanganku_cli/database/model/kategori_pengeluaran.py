@@ -1,4 +1,9 @@
+from dataclasses import dataclass
+
+@dataclass(frozen=True, kw_only=True)
 class ModelKategoriPengeluaran:
-    def __init__(self, id, judul):
-        self.id = id
-        self.judul = judul
+    id : int = 0
+    judul : str = ""
+
+    def __post_init__(self):
+        pass
