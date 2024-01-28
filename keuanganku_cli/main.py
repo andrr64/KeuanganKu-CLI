@@ -9,4 +9,5 @@ if __name__ == "__main__":
 
     db = KDatabase()
     ui_homepage(db)
-    db.closeConnection()
+    if KDatabase.isExist():
+        db.closeConnection()
