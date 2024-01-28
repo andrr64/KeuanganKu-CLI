@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
 @dataclass(frozen=True, kw_only=True)
-class ModelKategoriPengeluaran:
+class ModelExpenseCategory:
     id : int = 0
-    judul : str = ""
+    title : str = ""
 
     def __post_init__(self):
         pass
