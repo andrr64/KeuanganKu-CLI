@@ -16,7 +16,7 @@ class SQLPengeluaran:
     def initTable(self, connection : sqlite3.Connection):
         # Buat tabel jika belum ada
         table_columns = ', '.join([f'{column} {datatype}' for column, datatype in tableData.items()])
-        connection.cursor.execute(f'CREATE TABLE IF NOT EXISTS ${tableName} ({table_columns})')
+        connection.execute(f'CREATE TABLE IF NOT EXISTS {tableName} ({table_columns})')
 
         # Commit perubahan ke database
         connection.commit()

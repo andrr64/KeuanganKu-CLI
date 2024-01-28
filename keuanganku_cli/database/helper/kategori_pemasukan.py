@@ -7,7 +7,7 @@ tableData = {
 }
 initData = ['Gaji', 'Bonus', 'Uang Saku']
 
-class SQLPengeluaran:
+class SQLKategoriPengeluaran:
     def __init__(self):
         pass
 
