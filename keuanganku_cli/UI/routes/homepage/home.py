@@ -3,6 +3,7 @@ from UI.utility.ui_print import *
 from UI.user_input.input import getInt
 from error.invalid_input import *
 from UI.error_handler.invalid_input import *
+from database.db import KDatabase
 
 def routeIncomeData():
     clrscreen()
@@ -24,7 +25,7 @@ __routes__ = [
 ]
 __routes_length__ = len(__routes__)
 
-def ui_homepage():
+def ui_homepage(db : KDatabase):
     while True:
         clrscreen()
         kline()
@@ -37,6 +38,6 @@ def ui_homepage():
         if isinstance(userInput, KErrorInvalidInputType):
             errorHandlerInvalidInputType()
         else:
-            if __routes__[userInput -1][1]() == 0:
+            if __routes__[userInput-1][1]() == 0:
                 clrscreen()
                 break
