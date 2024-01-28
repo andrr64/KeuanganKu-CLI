@@ -6,7 +6,6 @@ tableData = {
     'waktu': 'TEXT NOT NULL',
     'jumlah': 'REAL NOT NULL',
     'id_kategori' : 'INTEGER NOT NULL',
-    'rating' : 'INTEGER NOT NULL'
 }
 
 class SQLPemasukan:
