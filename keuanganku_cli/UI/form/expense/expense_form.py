@@ -36,7 +36,7 @@ def fieldTime():
     else:
         datetime_format = "%d/%m/%Y %H:%M"
         try:
-            userInput = datetime.datetime.strptime(userInput, datetime_format)
+            userInput = datetime.strptime(userInput, datetime_format)
             return userInput
         except ValueError as E:
             raise E
