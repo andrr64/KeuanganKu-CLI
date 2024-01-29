@@ -8,15 +8,18 @@ from error.range_error import *
 from UI.error_handler.invalid_input import *
 from database.db import KDatabase
 
-def routeIncomeData():
-    clrscreen()
-def routeExpenseData():
+from UI.routes.homepage.income_data.income_data import ui_incomeData
+from UI.routes.homepage.expense_data.expense_data import ui_expenseData
+
+def routeIncomeData(db : KDatabase):
+    ui_incomeData(db)
+def routeExpenseData(db : KDatabase):
+    ui_expenseData(db)
+def routeAdvanceSummary(db : KDatabase):
     pass
-def routeAdvanceSummary():
+def routeSetting(db : KDatabase):
     pass
-def routeSetting():
-    pass
-def routeExit():
+def routeExit(db : KDatabase):
     return 0
 
 __routes__ = [
@@ -40,7 +43,7 @@ def ui_homepage(db : KDatabase):
         try:
             userInput = getInt(f"Choose [1-{__routes_length__}] : ", range(1, __routes_length__ + 1))
             clrscreen()
-            if __routes__[userInput-1][1]() == 0:
+            if __routes__[userInput-1][1](db) == 0:
                 break
         except Exception as E:
             clrscreen()
