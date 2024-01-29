@@ -1,6 +1,8 @@
 import sqlite3 as sql
 import os
-from database.helper import pemasukan, pengeluaran, kategori_pengeluaran, kategori_pemasukan
+from keuanganku_cli.database.helper import income_category
+from database.helper import expense_category
+from keuanganku_cli.database.helper import expense, income
 
 class KDatabase:
     __databaseFilename__ = "data.db"
@@ -30,7 +32,7 @@ class KDatabase:
 
     def initDatabase(self):
         self.initMetadataTable()
-        pemasukan.SQLPemasukan().initTable(self.connection)
-        pengeluaran.SQLPengeluaran().initTable(self.connection)
-        kategori_pemasukan.SQLKategoriPengeluaran().initTable(self.connection)
-        kategori_pengeluaran.SQLKategoriPengeluaran().initTable(self.connection)
+        income.SQLPemasukan().initTable(self.connection)
+        expense.SQLExpense().initTable(self.connection)
+        income_category.SQLKategoriPengeluaran().initTable(self.connection)
+        expense_category.SQLExpenseCategory().initTable(self.connection)
