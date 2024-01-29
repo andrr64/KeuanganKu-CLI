@@ -1,10 +1,10 @@
 import sqlite3
 from database.model.expense_category import ModelExpenseCategory
 
-tableName = 'kategori_pengeluaran'
+tableName = 'expense_category'
 tableData = {
     'id': 'INTEGER PRIMARY KEY',
-    'judul': 'TEXT NOT NULL'
+    'title': 'TEXT NOT NULL'
 }
 initData = [
     'Makanan dan Minuman Primer',
