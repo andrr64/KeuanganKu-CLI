@@ -26,13 +26,22 @@ def fieldAmount():
     except:
         raise KErrorInvalidInputType
 def fieldTime():
+    clrscreen()
+    print('+--------------------------+')
+    print("Expense Time")
     print('+--------------------------+')
     print("time format is dd/mm/yyyy hh:mm (use 24hr)")
-    print("type 'now' if time is now")
+    print("type 'now' if time is now -> now")
+    print("type 'now_dt' if date is now -> now_dt 12:00")
     print('+--------------------------+')
     userInput = input("Time       : ")
     if userInput.lower() == 'now':
         return datetime.now()
+    elif userInput.lower().startswith('now_dt'):
+        _, time_str = userInput.split(' ')
+        current_date = datetime.now().strftime("%d/%m/%Y")
+        datetime_format = "%d/%m/%Y %H:%M"
+        return datetime.strptime(f"{current_date} {time_str}", datetime_format)
     else:
         datetime_format = "%d/%m/%Y %H:%M"
         try:
