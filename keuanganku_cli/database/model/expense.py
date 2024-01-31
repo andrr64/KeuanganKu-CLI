@@ -32,6 +32,17 @@ class ModelExpense:
         }
 
     @staticmethod
+    def fromTuple(tupleData):
+        return ModelExpense(
+            id=tupleData[0],
+            title=tupleData[1],
+            time=datetime.strptime(tupleData[2], "%d/%m/%y %H:%M" ),
+            amount=tupleData[3],
+            category_id=tupleData[4],
+            rate=tupleData[5]
+        )
+
+    @staticmethod
     def fromJson(json_data):
         return ModelExpense(
             id=json_data['id'],
