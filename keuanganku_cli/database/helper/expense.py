@@ -35,7 +35,7 @@ class SQLExpense:
             return None
         expenseList = []
         for data in rows:
-            expenseList.append(ModelExpense(*data))
+            expenseList.append(ModelExpense.fromTuple(data))
         return expenseList
 
     def read_id(self, connection: sqlite3.Connection, expense_id: int):
