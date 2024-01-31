@@ -12,6 +12,13 @@ class ModelExpense:
 
     def __post_init__(self):
         pass
+    
+    def toListForInsert(self):
+        '''The return must ordered same like 'expense' column order '''
+        return [self.title, self.timeToStringFormat(), self.amount, self.category_id, self.rate]
+
+    def timeToStringFormat(self) -> str:
+        return datetime.strftime(self.time, "%d/%m/%y %H:%S")
 
     @staticmethod
     def toJson(expense):

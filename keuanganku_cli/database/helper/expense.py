@@ -12,6 +12,9 @@ tableData = {
 }
 
 class SQLExpense:
+    _insertColumnData = ['title', 'time', 'amount', 'category_id', 'rate']
+    _insertColumnLength = len(_insertColumnData)
+
     def __init__(self):
         pass
 
@@ -47,11 +50,10 @@ class SQLExpense:
     def insert(self, connection: sqlite3.Connection, data: ModelExpense):
         '''Insert expense data into the database'''
         try:
-            columns = ', '.join(data.__annotations__.keys())
-            values = ', '.join(['?' for _ in data.__annotations__.keys()])
+            columns = ', '.join(SQLExpense._insertColumnData)
+            values = ', '.join(['?' for _ in range(SQLExpense._insertColumnLength)])
             query = f'INSERT INTO {tableName} ({columns}) VALUES ({values})'
-
-            connection.execute(query, ModelExpense.toJson(data))
+            connection.execute(query, data.toListForInsert())
             connection.commit()
             return True
         except sqlite3.Error:

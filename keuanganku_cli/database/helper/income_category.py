@@ -18,7 +18,7 @@ class SQLKategoriPengeluaran:
 
         # Masukkan data initData ke dalam tabel
         for item in initData:
-            connection.execute(f"INSERT INTO {tableName} (judul) VALUES ('{item}')")
+            connection.execute(f"INSERT INTO {tableName} (title) VALUES ('{item}')")
 
         # Commit perubahan ke database
         connection.commit()
