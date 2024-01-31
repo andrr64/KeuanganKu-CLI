@@ -1,8 +1,8 @@
 import sqlite3 as sql
 import os
-from keuanganku_cli.database.helper import income_category
+from database.helper import income_category
 from database.helper import expense_category
-from keuanganku_cli.database.helper import expense, income
+from database.helper import expense, income
 
 class KDatabase:
     __databaseFilename__ = "data.db"

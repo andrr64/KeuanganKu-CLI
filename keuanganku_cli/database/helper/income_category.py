@@ -1,9 +1,9 @@
 import sqlite3
 
-tableName = 'kategori_pemasukan'
+tableName = 'income_category'
 tableData = {
     'id': 'INTEGER PRIMARY KEY',
-    'judul': 'TEXT NOT NULL'
+    'title': 'TEXT NOT NULL'
 }
 initData = ['Gaji', 'Bonus', 'Uang Saku']
 

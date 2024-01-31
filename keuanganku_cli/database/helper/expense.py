@@ -50,7 +50,8 @@ class SQLExpense:
             columns = ', '.join(data.__annotations__.keys())
             values = ', '.join(['?' for _ in data.__annotations__.keys()])
             query = f'INSERT INTO {tableName} ({columns}) VALUES ({values})'
-            connection.execute(query, data.__dict__)
+
+            connection.execute(query, ModelExpense.toJson(data))
             connection.commit()
             return True
         except sqlite3.Error:

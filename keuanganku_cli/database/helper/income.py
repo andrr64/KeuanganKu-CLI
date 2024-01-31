@@ -1,11 +1,11 @@
 import sqlite3
-tableName = 'pemasukan'
+tableName = 'income'
 tableData = {
     'id' : 'INTEGER PRIMARY KEY',
-    'judul': 'TEXT NOT NULL',
-    'waktu': 'TEXT NOT NULL',
-    'jumlah': 'REAL NOT NULL',
-    'id_kategori' : 'INTEGER NOT NULL',
+    'title': 'TEXT NOT NULL',
+    'time': 'TEXT NOT NULL',
+    'amount': 'REAL NOT NULL',
+    'category_id' : 'INTEGER NOT NULL',
 }
 
 class SQLPemasukan:
