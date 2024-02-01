@@ -25,7 +25,7 @@ class SQLExpenseCategory:
         row = cursor.fetchone()
         cursor.close()
         if len(row) != 0:
-            return ModelExpenseCategory(id=row[0][0], title=row[0][1])
+            return ModelExpenseCategory(id=row[0], title=row[1])
         return None
 
     def read_all(self, db: sqlite3.Connection):
