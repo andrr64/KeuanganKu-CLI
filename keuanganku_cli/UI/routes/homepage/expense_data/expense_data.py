@@ -1,6 +1,9 @@
 from UI.utility.ui_print import kline, kprint
 from UI.utility.clearscreen import clrscreen
+
 from UI.routes.homepage.expense_data.insert_new_expense.new_expense import ui_formNewExpense
+from UI.routes.homepage.expense_data.list_of_expense.list_expense import ui_listOfExpense
+
 from database.db import *
 
 from UI.user_input.input import getInt
@@ -12,7 +15,7 @@ def routeInsertNewData(db : KDatabase):
 def routeInsertNewCategory(db : KDatabase):
     pass
 def routeListOfExpense(db : KDatabase):
-    pass
+    ui_listOfExpense(connection=db.connection)
 
 __routes__ = [
     ["List of Expense", routeListOfExpense],
