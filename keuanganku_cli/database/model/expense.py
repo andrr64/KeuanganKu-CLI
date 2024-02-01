@@ -15,8 +15,9 @@ class ModelExpense:
     
     def toListForInsert(self):
         '''The return must ordered same like 'expense' column order '''
-        return [self.title, self.timeToStringFormat(), self.amount, self.category_id, self.rate]
+        return [self.title, self.timeToStringFormat, self.amount, self.category_id, self.rate]
 
+    @property
     def timeToStringFormat(self) -> str:
         return datetime.strftime(self.time, "%d/%m/%y %H:%S")
 
@@ -52,3 +53,6 @@ class ModelExpense:
             category_id=json_data['category_id'],
         )
             
+    def __str__(self) -> str:
+        amount = f'{self.amount:,.0f}'
+        return f"{self.title:<10} | {amount:<13}"
