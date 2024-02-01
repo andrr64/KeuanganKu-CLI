@@ -1,4 +1,5 @@
 from database.model.expense import ModelExpense
+from database.model.expense_category import ModelExpenseCategory
 
 from error.invalid_input import KErrorInvalidInputType
 from error.range_error import KErrorRange
@@ -111,6 +112,6 @@ def expenseForm(db : KDatabase):
             title=expenseTitle, 
             time=expenseTime, 
             amount= expenseAmount, 
-            category_id= expenseCategory.id, 
+            category= expenseCategory, 
             rate= expenseRate
         )
