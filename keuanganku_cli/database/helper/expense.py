@@ -1,5 +1,6 @@
 import sqlite3
 from database.model.expense import ModelExpense
+from database.helper.expense_category import SQLExpenseCategory
 
 tableName = 'expense'
 tableData = {
@@ -35,7 +36,9 @@ class SQLExpense:
             return None
         expenseList = []
         for data in rows:
-            expenseList.append(ModelExpense.fromTuple(data))
+            # 4 = category_id
+            categoryData = SQLExpenseCategory().read_id(connection, data[4])
+            expenseList.append(ModelExpense.fromTuple(data, categoryData))
         return expenseList
 
     def read_id(self, connection: sqlite3.Connection, expense_id: int):
