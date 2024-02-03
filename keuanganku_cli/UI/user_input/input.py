@@ -9,3 +9,6 @@ def getInt(prompt : str, expectedRange = None) -> int:
     if expectedRange is not None and userInput not in expectedRange:
         raise KErrorRange(expectedRange)
     return userInput
+
+def getAny(prompt : str):
+    return input(f"{prompt} : ")
