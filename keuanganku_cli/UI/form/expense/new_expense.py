@@ -113,5 +113,6 @@ def expenseForm(db : KDatabase):
             time=expenseTime, 
             amount= expenseAmount, 
             category= expenseCategory, 
+            category_id=expenseCategory.id,
             rate= expenseRate
         )

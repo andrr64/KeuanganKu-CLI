@@ -2,7 +2,7 @@ from database.db import KDatabase
 from UI.utility.ui_print import kprintInfo
 from UI.utility.clearscreen import clrscreen
 
-from UI.form.expense.expense_form import expenseForm
+from keuanganku_cli.UI.form.expense.new_expense import expenseForm
 from database.helper.expense import SQLExpense
 
 def ui_formNewExpense(db : KDatabase):
@@ -12,7 +12,6 @@ def ui_formNewExpense(db : KDatabase):
             if newData is None:
                 break  
             else:
-                kprintInfo(newData)
                 clrscreen()
                 if SQLExpense().insert(db.connection, newData):
                     kprintInfo("Success ^_^")
