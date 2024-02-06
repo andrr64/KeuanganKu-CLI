@@ -2,11 +2,13 @@ import sqlite3
 from database.model.expense import ModelExpense
 from database.helper.expense_category import SQLExpenseCategory
 
+from datetime import datetime, timedelta
+
 tableName = 'expense'
 tableData = {
     'id' : 'INTEGER PRIMARY KEY',
     'title': 'TEXT NOT NULL',
-    'time': 'TEXT NOT NULL',
+    'time': 'INTEGER NOT NULL',
     'amount': 'REAL NOT NULL',
     'category_id' : 'INTEGER NOT NULL',
     'rate' : 'INTEGER NOT NULL'
@@ -49,6 +51,46 @@ class SQLExpense:
         if row is not None:
             return ModelExpense(*row)
         return None
+
+    def readTotalPengeluaranMingguan(self, connection : sqlite3.Connection) -> float:
+        try:
+            # Dapatkan tanggal hari ini
+            today = datetime.now()
+            # Hitung awal dan akhir minggu
+            start_of_week = today - timedelta(days=today.weekday())
+            end_of_week = start_of_week + timedelta(days=6)
+
+            # Format tanggal ke dalam string
+
+            # Query untuk mengambil total pengeluaran mingguan
+            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
+            cursor = connection.execute(query, (start_of_week.timestamp(), end_of_week.timestamp()))
+            total_pengeluaran = cursor.fetchone()[0]
+            cursor.close()
+
+            # Jika total_pengeluaran adalah None, ubah menjadi 0
+            return total_pengeluaran if total_pengeluaran is not None else 0
+        except sqlite3.Error:
+            return None
+
+    def readTotalPengeluaranHarian(self, connection : sqlite3.Connection) -> float:
+        try:
+            # Dapatkan tanggal hari ini
+            today = datetime.now().date()
+            # Tentukan waktu awal dan akhir hari ini
+            today_start = datetime.combine(today, datetime.min.time())
+            today_end = datetime.combine(today, datetime.max.time())
+
+            # Query untuk mengambil total pengeluaran pada hari ini
+            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
+            cursor = connection.execute(query, (today_start.timestamp(), today_end.timestamp()))
+            total_pengeluaran = cursor.fetchone()[0]
+            cursor.close()
+
+            # Jika total_pengeluaran adalah None, ubah menjadi 0
+            return total_pengeluaran if total_pengeluaran is not None else 0
+        except sqlite3.Error:
+            return None
 
     def insert(self, connection: sqlite3.Connection, data: ModelExpense):
         '''Insert expense data into the database'''
