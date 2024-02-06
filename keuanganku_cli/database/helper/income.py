@@ -3,7 +3,7 @@ tableName = 'income'
 tableData = {
     'id' : 'INTEGER PRIMARY KEY',
     'title': 'TEXT NOT NULL',
-    'time': 'TEXT NOT NULL',
+    'time': 'INTEGER NOT NULL',
     'amount': 'REAL NOT NULL',
     'category_id' : 'INTEGER NOT NULL',
 }
