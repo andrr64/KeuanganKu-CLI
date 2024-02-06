@@ -32,7 +32,7 @@ class ModelExpense:
         return ModelExpense(
             id=tupleData[0],
             title=tupleData[1],
-            time=datetime.strptime(tupleData[2], "%d/%m/%y %H:%M" ),
+            time=datetime.utcfromtimestamp(tupleData[2]),
             amount=tupleData[3],
             category= expenseCategory,
             category_id=expenseCategory.id,
@@ -43,4 +43,4 @@ class ModelExpense:
         amount = f'{self.amount:,.0f}'
         categoryTitle = f'{self.category.title:<20}'
         title = f"{self.title:<10}" if len(self.title)  < 10 else f"{self.title[0:7]}..."
-        return f"{title} | {amount} | {categoryTitle} | {self.timeToStringFormat}"
+        return f"{title}\t{amount:<20}\t{categoryTitle}\t{self.timeToStringFormat}"
