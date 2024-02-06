@@ -2,7 +2,7 @@ from database.db import KDatabase
 from UI.utility.ui_print import kprintInfo
 from UI.utility.clearscreen import clrscreen
 
-from keuanganku_cli.UI.form.expense.new_expense import expenseForm
+from UI.form.expense.new_expense import expenseForm
 from database.helper.expense import SQLExpense
 
 def ui_formNewExpense(db : KDatabase):
