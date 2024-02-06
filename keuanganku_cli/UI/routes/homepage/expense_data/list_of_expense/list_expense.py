@@ -5,6 +5,8 @@ from UI.utility.clearscreen import clrscreen
 
 from UI.user_input.input import getAny
 
+from UI.detail.expense_detail import showExpenseDetail
+
 from database.helper.expense import SQLExpense
 
 def printExpenseList(listOfExpense, startNumber):
@@ -58,7 +60,7 @@ def ui_listOfExpense(connection : sqlite3.Connection):
         try:
             choosedIndex = int(userInput) -1
             if choosedIndex >= startIndex and choosedIndex < endIndex:
-                kprintInfo(listOfExpense[choosedIndex])
+                showExpenseDetail(data=listOfExpense[choosedIndex], conn=connection)
         except:
             if str.lower(userInput) == "e":
                 return 
