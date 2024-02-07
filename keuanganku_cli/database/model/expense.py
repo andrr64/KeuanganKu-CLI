@@ -39,8 +39,12 @@ class ModelExpense:
             rate=tupleData[5]
         )
 
+    @staticmethod
+    def printTableColumn() -> str:
+        return f"{'Title':<10} | {'Amount':<15} | {'Category':<20} | Time"
+
     def __str__(self) -> str:
         amount = f'{self.amount:,.0f}'
         categoryTitle = f'{self.category.title:<20}'
         title = f"{self.title:<10}" if len(self.title)  < 10 else f"{self.title[0:7]}..."
-        return f"{title}\t{amount:<20}\t{categoryTitle}\t{self.timeToStringFormat}"
+        return f"{title} | {amount:<15} | {categoryTitle} | {self.timeToStringFormat}"
