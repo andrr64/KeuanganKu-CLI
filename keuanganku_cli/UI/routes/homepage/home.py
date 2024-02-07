@@ -8,30 +8,30 @@ from error.range_error import *
 from UI.error_handler.invalid_input import *
 from database.db import KDatabase
 
-from UI.routes.homepage.income_data.income_data import ui_incomeData
-from UI.routes.homepage.expense_data.expense_data import ui_expenseData
+from UI.routes.homepage.income_data.income_data import UI_income
+from UI.routes.homepage.expense_data.list_of_expense.list_expense import UI_expense
 
-def routeIncomeData(db : KDatabase):
-    ui_incomeData(db)
-def routeExpenseData(db : KDatabase):
-    ui_expenseData(db)
-def routeAdvanceSummary(db : KDatabase):
+def ROUTE_income(db : KDatabase):
+    UI_income(db)
+def ROUTE_expense(db : KDatabase):
+    UI_expense(db)
+def ROUTE_advanceSummary(db : KDatabase):
     pass
-def routeSetting(db : KDatabase):
+def ROUTE_setting(db : KDatabase):
     pass
-def routeExit(db : KDatabase):
+def ROUTE_exit(db : KDatabase):
     return 0
 
 __routes__ = [
-    ['Income Data',routeIncomeData],
-    ['Expense Data',routeExpenseData],
-    ['Advance Summary',routeAdvanceSummary],
-    ['Setting',routeSetting],
-    ['Exit', routeExit]
+    ['Income Data',ROUTE_income],
+    ['Expense Data',ROUTE_expense],
+    ['Advance Summary',ROUTE_advanceSummary],
+    ['Setting',ROUTE_setting],
+    ['Exit', ROUTE_exit]
 ]
 __routes_length__ = len(__routes__)
 
-def ui_homepage(db : KDatabase):
+def UI_homepage(db : KDatabase):
     while True:
         clrscreen()
         kline()
