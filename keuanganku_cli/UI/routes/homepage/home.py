@@ -9,7 +9,7 @@ from UI.error_handler.invalid_input import *
 from database.db import KDatabase
 
 from UI.routes.homepage.income_data.income_data import UI_income
-from keuanganku_cli.UI.routes.homepage.expense_data.homepage_expense import UI_expense
+from UI.routes.homepage.expense_data.homepage_expense import UI_expense
 
 def ROUTE_income(db : KDatabase):
     UI_income(db)

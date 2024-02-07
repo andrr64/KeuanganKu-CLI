@@ -1,13 +1,11 @@
-import sqlite3 
-
 from UI.utility.ui_print import kprintInfo, kprint, kline, kprintCenter
 from UI.utility.clearscreen import clrscreen
 
 from UI.user_input.input import getAny
 
-from keuanganku_cli.UI.routes.homepage.expense_data.detail_expense import showExpenseDetail
+from UI.routes.homepage.expense_data.detail_expense import showExpenseDetail
 
-from keuanganku_cli.UI.routes.homepage.expense_data.insert_new_expense import UI_formNewExpense
+from UI.routes.homepage.expense_data.insert_new_expense import UI_formNewExpense
 
 from database.helper.expense import SQLExpense
 from database.model.expense import ModelExpense
