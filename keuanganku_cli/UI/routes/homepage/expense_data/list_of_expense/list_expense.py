@@ -8,6 +8,7 @@ from UI.user_input.input import getAny
 from UI.detail.expense_detail import showExpenseDetail
 
 from database.helper.expense import SQLExpense
+from database.model.expense import ModelExpense
 
 def printExpenseList(listOfExpense, startNumber):
     i = startNumber
@@ -49,9 +50,8 @@ def ui_listOfExpense(connection : sqlite3.Connection):
         kprint("SUMMARY")
         kprint(f'Daily\t: {dailyExpensesAmountStr:<20}Weekly\t: {weeklyExpensesAmountStr:<20}')
         kline()
-        print()
+        kprint(f"No| {ModelExpense.printTableColumn()}")
         printExpenseList(listOfExpense[startIndex:endIndex], startIndex + 1)
-        print()
         kline()
         kprintCenter("e : Back\t| h : help", 50) 
         kprintCenter(f'{pageNumber} of {pageLength}', 50)
