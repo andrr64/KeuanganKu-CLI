@@ -45,6 +45,10 @@ class ModelExpense:
 
     def __str__(self) -> str:
         amount = f'{self.amount:,.0f}'
-        categoryTitle = f'{self.category.title:<20}'
+        categoryTitle = ''
+        if len(self.category.title) > 20:
+            categoryTitle = self.category.title[0:17] + '...'
+        else:
+            categoryTitle = f'{self.category.title:<20}'
         title = f"{self.title:<10}" if len(self.title)  < 10 else f"{self.title[0:7]}..."
         return f"{title} | {amount:<15} | {categoryTitle} | {self.timeToStringFormat}"
