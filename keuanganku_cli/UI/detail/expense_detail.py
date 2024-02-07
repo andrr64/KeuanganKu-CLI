@@ -11,10 +11,13 @@ def showExpenseDetail(data : ModelExpense, conn : sql.Connection):
         clrscreen()
         kprint("Expense Detail")
         kline()
-        kprint(f"Title\t: {data.title}")
-        kprint(f"Amount\t: {data.amount:,.0f}")
-        kprint(f"Date\t: {data.timeToStringFormat}")
+        kprint(f"Title\t\t: {data.title}")
+        kprint(f"Amount\t\t: {data.amount:,.0f}")
+        kprint(f"Date\t\t: {data.timeToStringFormat}")
+        kprint(f"Category\t: {data.category.title}")
         kline()
-        kprintCenter("d : Delete | c : change", 50)  
+        kprintCenter("e : back | d : Delete | c : change", 50)  
         kline()
         userInput = getAny("Command")        
+        if str.lower(userInput) == "e":
+            break
