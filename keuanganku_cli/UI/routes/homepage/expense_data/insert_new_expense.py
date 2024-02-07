@@ -5,7 +5,7 @@ from UI.utility.clearscreen import clrscreen
 from UI.form.expense.new_expense import expenseForm
 from database.helper.expense import SQLExpense
 
-def ui_formNewExpense(db : KDatabase):
+def UI_formNewExpense(db : KDatabase):
     while True:
         try:
             newData = expenseForm(db=db)
