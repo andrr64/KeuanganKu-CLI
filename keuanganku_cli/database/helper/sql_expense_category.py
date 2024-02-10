@@ -4,22 +4,23 @@ from database.model.model_expense_category import ModelExpenseCategory
 tableName = 'expense_category'
 tableData = {
     'id': 'INTEGER PRIMARY KEY',
-    'title': 'TEXT NOT NULL'
+    'title': 'TEXT NOT NULL',
+    'active': 'INTEGER NOT NULL'
 }
 initData = [
-    'Makanan dan Minuman Primer',
-    'Makanan dan Minuman Sekunder',
-    'Gaya Hidup',
-    'Transportasi',
-    'Perawatan Kendaraan',
-    'Hutang'
+    'Primary Food and Beverage',
+    'Secondary Food and Beverage',
+    'Lifestyle',
+    'Transportation',
+    'Vehicle Maintenance',
+    'Debt'
 ]
 
 class SQLExpenseCategory:
     def __init__(self):
         pass
 
-    def read_id(self, db: sqlite3.Connection, category_id: int) -> (ModelExpenseCategory | None):
+    def readById(self, db: sqlite3.Connection, category_id: int) -> (ModelExpenseCategory | None):
         '''Read expense category data by id'''
         cursor = db.execute(f'SELECT * FROM {tableName} WHERE id = ?', (category_id,))
         row = cursor.fetchone()
@@ -40,7 +41,8 @@ class SQLExpenseCategory:
             categoryList.append(
                 ModelExpenseCategory(
                     id=data[0],
-                    title=data[1]
+                    title=data[1],
+                    active=data[2]
                 )
             )
         return categoryList
@@ -67,7 +69,7 @@ class SQLExpenseCategory:
 
     def insert(self, db: sqlite3.Connection, data: ModelExpenseCategory):
         '''Insert expense category data into the database'''
-        db.execute(f"INSERT INTO {tableName} (judul) VALUES (?)", (data.title,))
+        db.execute(f"INSERT INTO {tableName} (title, active) VALUES (?, ?)", (data.title, data.active))
         db.commit()
 
     def initTable(self, connection: sqlite3.Connection):
@@ -77,7 +79,7 @@ class SQLExpenseCategory:
 
         # Masukkan data initData ke dalam tabel
         for item in initData:
-            connection.execute(f"INSERT INTO {tableName} (title) VALUES ('{item}')")
+            connection.execute(f"INSERT INTO {tableName} (title, active) VALUES ('{item}', 1)")
 
         # Commit perubahan ke database
         connection.commit()

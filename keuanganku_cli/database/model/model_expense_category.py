@@ -4,6 +4,7 @@ from dataclasses import dataclass
 class ModelExpenseCategory:
     id : int = 0
     title : str = ""
+    active : int = 1
 
     def __post_init__(self):
         pass
