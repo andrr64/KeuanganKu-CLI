@@ -7,3 +7,6 @@ class ModelExpenseCategory:
 
     def __post_init__(self):
         pass
+
+    def __str__(self) -> str:
+        return self.title
