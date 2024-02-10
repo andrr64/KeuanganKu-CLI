@@ -57,7 +57,7 @@ def fieldTime():
         except ValueError as E:
             raise E
 def fieldCategory(db: KDatabase) -> ModelExpenseCategory:
-    listCategory = SQLExpenseCategory().read_all(db=db.connection)
+    listCategory = SQLExpenseCategory().readAll(db=db.connection)
     if listCategory is None:
         # todo: Handle when listCategory is empty
         pass
