@@ -5,7 +5,6 @@ from UI.user_input.input import getInt
 from error.invalid_input import *
 from error.range_error import * 
 
-from UI.error_handler.invalid_input import *
 from database.db import KDatabase
 
 from UI.routes.income_data.income_data import UI_income
@@ -19,6 +18,8 @@ def ROUTE_advanceSummary(db : KDatabase):
     pass
 def ROUTE_setting(db : KDatabase):
     pass
+def ROUTE_about():
+    pass
 def ROUTE_exit(db : KDatabase):
     return 0
 
@@ -27,6 +28,7 @@ __routes__ = [
     ['Expense Data',ROUTE_expense],
     ['Advance Summary',ROUTE_advanceSummary],
     ['Setting',ROUTE_setting],
+    ['About', ROUTE_about],
     ['Exit', ROUTE_exit]
 ]
 __routes_length__ = len(__routes__)
@@ -45,6 +47,6 @@ def UI_homepage(db : KDatabase):
             clrscreen()
             if __routes__[userInput-1][1](db) == 0:
                 break
-        except Exception as E:
+        except:
             clrscreen()
-            kprintInfo(E)
+            KErrorInvalidInputType.handler()
