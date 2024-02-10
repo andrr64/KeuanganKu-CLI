@@ -39,7 +39,7 @@ class SQLExpense:
         expenseList = []
         for data in rows:
             # 4 = category_id
-            categoryData = SQLExpenseCategory().read_id(connection, data[4])
+            categoryData = SQLExpenseCategory().readById(connection, data[4])
             expenseList.append(ModelExpense.fromTuple(data, categoryData))
         return expenseList
 
