@@ -5,5 +5,5 @@ __routes__ = [
 ]
 __routelength__ = len(__routes__)
 
-def ui_incomeData(db : KDatabase):
+def UI_income(db : KDatabase):
     pass

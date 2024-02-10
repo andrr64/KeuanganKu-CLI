@@ -15,9 +15,11 @@ def UI_formNewExpense(db : KDatabase):
                 clrscreen()
                 if SQLExpense().insert(db.connection, newData):
                     kprintInfo("Success ^_^")
+                    return True
                 else:
                     kprintInfo("Something wrong")
-                break
+                    return False
         except Exception as e:
             clrscreen()
             kprintInfo(e)
+            return False
