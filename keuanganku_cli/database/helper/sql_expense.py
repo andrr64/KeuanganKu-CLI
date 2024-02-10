@@ -52,7 +52,7 @@ class SQLExpense:
             return ModelExpense(*row)
         return None
 
-    def readTotalPengeluaranMingguan(self, connection : sqlite3.Connection) -> float:
+    def readWeeklyExpenseAmount(self, connection : sqlite3.Connection) -> float:
         try:
             # Dapatkan tanggal hari ini
             today = datetime.now()
@@ -73,7 +73,7 @@ class SQLExpense:
         except sqlite3.Error:
             return None
 
-    def readTotalPengeluaranHarian(self, connection : sqlite3.Connection) -> float:
+    def readDailyExpenseAmount(self, connection : sqlite3.Connection) -> float:
         try:
             # Dapatkan tanggal hari ini
             today = datetime.now().date()
@@ -84,6 +84,42 @@ class SQLExpense:
             # Query untuk mengambil total pengeluaran pada hari ini
             query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
             cursor = connection.execute(query, (today_start.timestamp(), today_end.timestamp()))
+            total_pengeluaran = cursor.fetchone()[0]
+            cursor.close()
+
+            # Jika total_pengeluaran adalah None, ubah menjadi 0
+            return total_pengeluaran if total_pengeluaran is not None else 0
+        except sqlite3.Error:
+            return None
+   
+    def readMonthlyExpenseAmount(self, connection: sqlite3.Connection) -> float:
+        try:
+            # Dapatkan tanggal bulan ini
+            today = datetime.now()
+            start_of_month = today.replace(day=1)
+            end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1, day=1) - timedelta(days=1)
+
+            # Query untuk mengambil total pengeluaran bulanan
+            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
+            cursor = connection.execute(query, (start_of_month.timestamp(), end_of_month.timestamp()))
+            total_pengeluaran = cursor.fetchone()[0]
+            cursor.close()
+
+            # Jika total_pengeluaran adalah None, ubah menjadi 0
+            return total_pengeluaran if total_pengeluaran is not None else 0
+        except sqlite3.Error:
+            return None
+
+    def readYearlyExpenseAmount(self, connection: sqlite3.Connection) -> float:
+        try:
+            # Dapatkan tanggal tahun ini
+            today = datetime.now()
+            start_of_year = today.replace(month=1, day=1)
+            end_of_year = today.replace(month=12, day=31)
+
+            # Query untuk mengambil total pengeluaran tahunan
+            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
+            cursor = connection.execute(query, (start_of_year.timestamp(), end_of_year.timestamp()))
             total_pengeluaran = cursor.fetchone()[0]
             cursor.close()
 
