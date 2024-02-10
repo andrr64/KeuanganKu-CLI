@@ -3,9 +3,10 @@ import sqlite3
 tableName = 'income_category'
 tableData = {
     'id': 'INTEGER PRIMARY KEY',
-    'title': 'TEXT NOT NULL'
+    'title': 'TEXT NOT NULL',
+    'active': 'INTEGER NOT NULL'
 }
-initData = ['Gaji', 'Bonus', 'Uang Saku']
+initData = ['Salary', 'Bonus', 'Side Income', 'Pocket Money']
 
 class SQLKategoriPengeluaran:
     def __init__(self):
@@ -18,7 +19,7 @@ class SQLKategoriPengeluaran:
 
         # Masukkan data initData ke dalam tabel
         for item in initData:
-            connection.execute(f"INSERT INTO {tableName} (title) VALUES ('{item}')")
+            connection.execute(f"INSERT INTO {tableName} (title, active) VALUES ('{item}', 1)")
 
         # Commit perubahan ke database
         connection.commit()
