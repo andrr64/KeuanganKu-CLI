@@ -1,5 +1,6 @@
 from UI.routes.home import UI_homepage
 from database.db import KDatabase
+from UI.utility.ui_print import kprintInfo
 
 def __CHECK_matplotlibModule():
     try:
