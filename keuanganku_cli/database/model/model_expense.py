@@ -24,6 +24,10 @@ class ModelExpense:
         return datetime.strftime(self.time, "%d/%m/%y %H:%S")
     
     @property
+    def timeToStringFormatSimple(self) -> str:
+        return datetime.strftime(self.time, "%d/%m/%y")
+
+    @property
     def timeToUnix(self) -> int:
         return int(self.time.timestamp())
 
@@ -44,11 +48,11 @@ class ModelExpense:
         return f"{'Title':<10} | {'Amount':<15} | {'Category':<20} | Time"
 
     def __str__(self) -> str:
-        amount = f'{self.amount:,.0f}'
+        amount = f'{self.amount:,.2f}'
         categoryTitle = ''
         if len(self.category.title) > 20:
             categoryTitle = self.category.title[0:17] + '...'
         else:
             categoryTitle = f'{self.category.title:<20}'
         title = f"{self.title:<10}" if len(self.title)  < 10 else f"{self.title[0:7]}..."
-        return f"{title} | {amount:<15} | {categoryTitle} | {self.timeToStringFormat}"
+        return f"{title} | {amount:>15} | {categoryTitle} | {self.timeToStringFormat}"
