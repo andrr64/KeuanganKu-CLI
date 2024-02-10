@@ -1,8 +1,10 @@
 from UI.utility.ui_print import kprint, kline, kprintCenter
 from UI.utility.clearscreen import clrscreen
 from UI.user_input.input import getAny
+
 from UI.routes.expense_data.detail_expense import showExpenseDetail
 from UI.routes.expense_data.insert_new_expense import UI_formNewExpense
+from UI.routes.expense_data.routes.category import UI_homepageCategory
 
 from database.helper.sql_expense import SQLExpense
 from database.model.model_expense import ModelExpense
@@ -23,7 +25,7 @@ monthlyExpenseAmount, yearlyExpenseAmount = 0,0
 def UI_printExpenseData(listOfExpense, startNumber):
     i = startNumber
     for data in listOfExpense:
-        print(f' {i} | {data}')
+        kprint(f'{i} | {data}')
         i += 1
 
 def UI_printEmptyData():
@@ -88,8 +90,10 @@ def DB_refreshExpenseData(db : KDatabase):
         if expenseDataLength < maxDataLength:
             endIndex = expenseDataLength
         
-        weeklyExpenseAmount = SQLExpense().readTotalPengeluaranMingguan(db.connection) 
-        dailyExpenseAmount = SQLExpense().readTotalPengeluaranHarian(db.connection) 
+        weeklyExpenseAmount     = SQLExpense().readWeeklyExpenseAmount(db.connection) 
+        dailyExpenseAmount      = SQLExpense().readDailyExpenseAmount(db.connection) 
+        monthlyExpenseAmount    = SQLExpense().readMonthlyExpenseAmount(db.connection)
+        yearlyExpenseAmount     = SQLExpense().readYearlyExpenseAmount(db.connection)
 
 def UI_expense(db : KDatabase):
     DB_refreshExpenseData(db)
@@ -103,7 +107,7 @@ def UI_expense(db : KDatabase):
         kprint("i : Insert\t| s : Summary\t| c : Category") 
         kprint("e : Back\t| h : Help\t| r : Refresh") 
         kline()
-        userInput = getAny(prompt='Choose')
+        userInput = getAny(prompt='Command')
         try:
             choosedIndex = int(userInput) -1
             if choosedIndex >= startIndex and choosedIndex < endIndex:
@@ -118,4 +122,6 @@ def UI_expense(db : KDatabase):
                     DB_refreshExpenseData(db)
             elif userInput == "r":
                 pass
+            elif userInput == "c":
+                UI_homepageCategory(db)
                 
