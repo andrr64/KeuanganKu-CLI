@@ -1,4 +1,4 @@
-from UI.routes.homepage.home import *
+from UI.routes.home import UI_homepage
 from database.db import KDatabase
 
 def __CHECK_matplotlibModule():
