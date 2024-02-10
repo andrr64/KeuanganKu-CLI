@@ -28,7 +28,7 @@ class SQLExpenseCategory:
             return ModelExpenseCategory(id=row[0], title=row[1])
         return None
 
-    def read_all(self, db: sqlite3.Connection):
+    def readAll(self, db: sqlite3.Connection):
         '''Return list of expense category (None if empty)'''
         cursor = db.execute(f'SELECT * FROM {tableName}')
         rows = cursor.fetchall()
