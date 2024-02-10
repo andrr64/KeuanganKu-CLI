@@ -2,7 +2,7 @@ from UI.routes.home import UI_homepage
 from database.db import KDatabase
 from UI.utility.ui_print import kprintInfo
 
-def __CHECK_matplotlibModule():
+def __CHECK_modules():
     try:
         import matplotlib
         del matplotlib
@@ -21,7 +21,7 @@ def __CHECK_database():
 def CHECK_isEverythingOkay():
     try:
         __CHECK_database()
-        __CHECK_matplotlibModule()
+        __CHECK_modules()
         return True
     except Exception as e:
         kprintInfo(e)
