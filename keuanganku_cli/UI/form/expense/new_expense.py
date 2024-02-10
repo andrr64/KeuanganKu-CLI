@@ -1,5 +1,5 @@
-from database.model.expense import ModelExpense
-from database.model.expense_category import ModelExpenseCategory
+from database.model.model_expense import ModelExpense
+from database.model.model_expense_category import ModelExpenseCategory
 
 from error.invalid_input import KErrorInvalidInputType
 from error.range_error import KErrorRange
@@ -7,8 +7,8 @@ from error.range_error import KErrorRange
 from datetime import datetime
 
 from database.db import KDatabase
-from database.helper.expense_category import SQLExpenseCategory
-from database.model.expense_category import ModelExpenseCategory
+from database.helper.sql_expense_category import SQLExpenseCategory
+from database.model.model_expense_category import ModelExpenseCategory
 
 from UI.utility.clearscreen import clrscreen
 from UI.utility.ui_print import kprintInfo, kline

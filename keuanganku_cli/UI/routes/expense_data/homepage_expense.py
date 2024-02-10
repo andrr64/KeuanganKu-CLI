@@ -4,8 +4,8 @@ from UI.user_input.input import getAny
 from UI.routes.expense_data.detail_expense import showExpenseDetail
 from UI.routes.expense_data.insert_new_expense import UI_formNewExpense
 
-from database.helper.expense import SQLExpense
-from database.model.expense import ModelExpense
+from database.helper.sql_expense import SQLExpense
+from database.model.model_expense import ModelExpense
 from database.db import KDatabase
 
 ## Global Variable

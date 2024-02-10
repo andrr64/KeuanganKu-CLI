@@ -3,7 +3,7 @@ from UI.utility.ui_print import kprintInfo
 from UI.utility.clearscreen import clrscreen
 
 from UI.form.expense.new_expense import expenseForm
-from database.helper.expense import SQLExpense
+from database.helper.sql_expense import SQLExpense
 
 def UI_formNewExpense(db : KDatabase):
     while True:

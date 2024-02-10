@@ -1,5 +1,5 @@
 import sqlite3
-from database.model.expense_category import ModelExpenseCategory
+from database.model.model_expense_category import ModelExpenseCategory
 
 tableName = 'expense_category'
 tableData = {

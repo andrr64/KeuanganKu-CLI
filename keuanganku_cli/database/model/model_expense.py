@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from database.model.expense_category import ModelExpenseCategory
+from database.model.model_expense_category import ModelExpenseCategory
 
 @dataclass
 class ModelExpense:

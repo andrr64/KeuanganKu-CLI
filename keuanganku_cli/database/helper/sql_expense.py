@@ -1,6 +1,6 @@
 import sqlite3
-from database.model.expense import ModelExpense
-from database.helper.expense_category import SQLExpenseCategory
+from database.model.model_expense import ModelExpense
+from database.helper.sql_expense_category import SQLExpenseCategory
 
 from datetime import datetime, timedelta
 

@@ -2,7 +2,7 @@ from UI.utility.clearscreen import clrscreen
 from UI.utility.ui_print import kline, kprint, kprintCenter
 from UI.user_input.input import getAny
 
-from database.model.expense import ModelExpense
+from database.model.model_expense import ModelExpense
 
 import sqlite3 as sql
 
