@@ -18,6 +18,7 @@ pageNumber, pageLength = 1,1
 startIndex, endIndex = 0,0
 
 dailyExpenseAmount, weeklyExpenseAmount = 0,0
+monthlyExpenseAmount, yearlyExpenseAmount = 0,0
 
 def UI_printExpenseData(listOfExpense, startNumber):
     i = startNumber
@@ -37,13 +38,18 @@ def UI_printWithData(
         startIndex : int,
         endIndex : int,
         dailyExpenseAmount : float,
-        weeklyExpenseAmount : float
+        weeklyExpenseAmount : float,
+        monthlyExpenseAmount : float,
+        yearlyExpenseAmount : float
 ):
-        dailyExpensesAmountStr = f'{dailyExpenseAmount:,.0f}'
-        weeklyExpensesAmountStr = f'{weeklyExpenseAmount:,.0f}'
+        dailyExpensesAmountStr = f'{dailyExpenseAmount:,.2f}'
+        weeklyExpensesAmountStr = f'{weeklyExpenseAmount:,.2f}'
+        monthlyExpenseAmountStr = f'{monthlyExpenseAmount:,.2f}'
+        yearlyExpenseAmountStr = f'{yearlyExpenseAmount:,.2f}'
 
         kprint("SUMMARY")
-        kprint(f'Today\t: {dailyExpensesAmountStr:<20}Weekly\t: {weeklyExpensesAmountStr:<20}')
+        kprint(f'Today\t\t: {dailyExpensesAmountStr:<20}Weekly\t: {weeklyExpensesAmountStr:<20}')
+        kprint(f'Monthly\t: {monthlyExpenseAmountStr:<20}Yearly\t: {yearlyExpenseAmountStr:<20}')
         kline()
         kprint(f"No| {ModelExpense.printTableColumn()}")
         UI_printExpenseData(expenseData[startIndex:endIndex], startIndex + 1)
@@ -51,7 +57,7 @@ def UI_printWithData(
 def DB_refreshExpenseData(db : KDatabase):
     global expenseData
     global printDataFunction, pageNumber, pageLength, startIndex, endIndex, maxDataLength
-    global weeklyExpenseAmount, dailyExpenseAmount
+    global weeklyExpenseAmount, dailyExpenseAmount, monthlyExpenseAmount, yearlyExpenseAmount
     
     expenseData = SQLExpense().read_all(connection=db.connection)
     if expenseData is None:
@@ -64,7 +70,9 @@ def DB_refreshExpenseData(db : KDatabase):
                 startIndex,
                 endIndex,
                 dailyExpenseAmount,
-                weeklyExpenseAmount
+                weeklyExpenseAmount,
+                monthlyExpenseAmount,
+                yearlyExpenseAmount
             )
         
         printDataFunction = printWithData
@@ -92,8 +100,8 @@ def UI_expense(db : KDatabase):
         kline()
         printDataFunction()        
         kline()
-        kprint("i : Insert\t| a : Advance Summary") 
-        kprint("e : Back\t| h : help | r : Refresh") 
+        kprint("i : Insert\t| s : Summary\t| c : Category") 
+        kprint("e : Back\t| h : Help\t| r : Refresh") 
         kline()
         userInput = getAny(prompt='Choose')
         try:
