@@ -18,7 +18,7 @@ def ROUTE_advanceSummary(db : KDatabase):
     pass
 def ROUTE_setting(db : KDatabase):
     pass
-def ROUTE_about():
+def ROUTE_about(db : KDatabase):
     pass
 def ROUTE_exit(db : KDatabase):
     return 0
