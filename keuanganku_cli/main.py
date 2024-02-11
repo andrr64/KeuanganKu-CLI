@@ -1,14 +1,22 @@
 from UI.routes.home import UI_homepage
 from database.db import KDatabase
 from UI.utility.ui_print import kprintInfo
+from UI.utility.clearscreen import clrscreen
+
+def __raise_module_error(module_name):
+    raise Exception(f"{module_name} not found, install it using 'pip install {module_name}'")
 
 def __CHECK_modules():
     try:
         import matplotlib
         del matplotlib
     except:
-        errorMsg = 'Matplotlib is not found, install it using pip command "pip install matplotlib"'
-        raise Exception(errorMsg)
+        __raise_module_error('matplotlib')
+    try:
+        import numpy as np
+        del np
+    except:
+        __raise_module_error('numpy') 
     
 def __CHECK_database():
     try:
