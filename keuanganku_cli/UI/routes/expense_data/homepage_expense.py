@@ -1,10 +1,11 @@
-from UI.utility.ui_print import kprint, kline, kprintCenter
+from UI.utility.ui_print import kprint, kline, kprintCenter, kprintInfo
 from UI.utility.clearscreen import clrscreen
 from UI.user_input.input import getAny
 
 from UI.routes.expense_data.detail_expense import UI_showExpenseDetail
 from UI.routes.expense_data.insert_new_expense import UI_formNewExpense
 from UI.routes.expense_data.routes.category import UI_homepageCategory
+from UI.routes.expense_data.routes.graph import UI_weeklyDistributionGraph, UI_monthlyDistributionGraph, UI_yearlyDistributionGraph
 
 from database.helper.sql_expense import SQLExpense, ModelExpense
 from database.db import KDatabase
@@ -105,8 +106,9 @@ def UI_expense(db : KDatabase):
         kline()
         kprint("i : Insert\t| s : Summary\t| c : Category") 
         kprint("e : Back\t| h : Help\t| r : Refresh") 
+        kprint("g : Graph\t")
         kline()
-        userInput = getAny(prompt='Command')
+        userInput = str.lower(getAny(prompt='Command'))
         try:
             choosedIndex = int(userInput) -1
             if choosedIndex >= startIndex and choosedIndex < endIndex:
@@ -114,7 +116,6 @@ def UI_expense(db : KDatabase):
                 if exitStatus:
                     DB_refreshExpenseData(db)
         except:
-            userInput = str.lower(userInput)
             if userInput == "e":
                 return 
             elif userInput == "i":
@@ -125,4 +126,22 @@ def UI_expense(db : KDatabase):
                 pass
             elif userInput == "c":
                 UI_homepageCategory(db)
-                
+            elif userInput == "g":
+                while True:
+                    clrscreen()
+                    kprint('Graph')
+                    kline()
+                    kprint('1. Weekly Distribution')
+                    kprint('2. Monthly Distribution')
+                    kprint('3. Yearly Distribution')
+                    kprint('4. Back')
+                    kline()
+                    userInput = getAny('Command')
+                    if userInput == '1':
+                        UI_weeklyDistributionGraph(db)
+                    elif userInput == '2':
+                        UI_monthlyDistributionGraph(db)
+                    elif userInput == '3':
+                        UI_yearlyDistributionGraph(db)
+                    elif userInput == '4':
+                        break
