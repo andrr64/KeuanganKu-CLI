@@ -153,10 +153,10 @@ class SQLExpense:
             connection.rollback()
             return False
 
-    def delete(self, connection: sqlite3.Connection, expense_id: int):
+    def delete(self, connection: sqlite3.Connection, data : ModelExpense):
         '''Delete expense data from the database'''
         try:
-            connection.execute(f"DELETE FROM {tableName} WHERE id = ?", (expense_id,))
+            connection.execute(f"DELETE FROM {tableName} WHERE id = ?", (data.id,))
             connection.commit()
             return True
         except sqlite3.Error:

@@ -1,14 +1,16 @@
 from UI.utility.clearscreen import clrscreen
-from UI.utility.ui_print import kline, kprint, kprintCenter
+from UI.utility.ui_print import kline, kprint, kprintCenter, kprintInfo
 from UI.user_input.input import getAny
 
-from database.model.model_expense import ModelExpense
+from database.helper.sql_expense import SQLExpense, ModelExpense
 
 import sqlite3 as sql
 
-def showExpenseDetail(data : ModelExpense, conn : sql.Connection):
+
+def UI_showExpenseDetail(data : ModelExpense, conn : sql.Connection):
     while True:
         clrscreen()
+        kline()
         kprint("Expense Detail")
         kline()
         kprint(f"Title\t\t: {data.title}")
@@ -18,6 +20,15 @@ def showExpenseDetail(data : ModelExpense, conn : sql.Connection):
         kline()
         kprintCenter("e : back | d : Delete | c : change", 50)  
         kline()
-        userInput = getAny("Command")        
-        if str.lower(userInput) == "e":
-            break
+        userInput = str.lower(getAny('Command'))        
+        if userInput == "e":
+            return False
+        elif userInput == "d":
+            clrscreen()
+            if str.lower(getAny('Are you sure? [Y/n]')) == 'y':
+                clrscreen()
+                if SQLExpense().delete(conn, data):
+                    kprintInfo('Success ^_^')
+                else:
+                    kprintInfo('Failed :(, something wrong')
+            return True

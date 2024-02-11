@@ -2,12 +2,11 @@ from UI.utility.ui_print import kprint, kline, kprintCenter
 from UI.utility.clearscreen import clrscreen
 from UI.user_input.input import getAny
 
-from UI.routes.expense_data.detail_expense import showExpenseDetail
+from UI.routes.expense_data.detail_expense import UI_showExpenseDetail
 from UI.routes.expense_data.insert_new_expense import UI_formNewExpense
 from UI.routes.expense_data.routes.category import UI_homepageCategory
 
-from database.helper.sql_expense import SQLExpense
-from database.model.model_expense import ModelExpense
+from database.helper.sql_expense import SQLExpense, ModelExpense
 from database.db import KDatabase
 
 ## Global Variable
@@ -111,7 +110,9 @@ def UI_expense(db : KDatabase):
         try:
             choosedIndex = int(userInput) -1
             if choosedIndex >= startIndex and choosedIndex < endIndex:
-                showExpenseDetail(data=expenseData[choosedIndex], conn=db.connection)
+                exitStatus = UI_showExpenseDetail(data=expenseData[choosedIndex], conn=db.connection)
+                if exitStatus:
+                    DB_refreshExpenseData(db)
         except:
             userInput = str.lower(userInput)
             if userInput == "e":
