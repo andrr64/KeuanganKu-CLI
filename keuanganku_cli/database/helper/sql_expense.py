@@ -52,82 +52,73 @@ class SQLExpense:
             return ModelExpense(*row)
         return None
 
-    def readWeeklyExpenseAmount(self, connection : sqlite3.Connection) -> float:
+    def _readExpenseInRange(self, connection: sqlite3.Connection, start_time: float, end_time: float) -> float:
         try:
-            # Dapatkan tanggal hari ini
-            today = datetime.now()
-            # Hitung awal dan akhir minggu
-            start_of_week = today - timedelta(days=today.weekday())
-            end_of_week = start_of_week + timedelta(days=6)
-
-            # Format tanggal ke dalam string
-
-            # Query untuk mengambil total pengeluaran mingguan
             query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
-            cursor = connection.execute(query, (start_of_week.timestamp(), end_of_week.timestamp()))
+            cursor = connection.execute(query, (start_time, end_time))
             total_pengeluaran = cursor.fetchone()[0]
             cursor.close()
-
-            # Jika total_pengeluaran adalah None, ubah menjadi 0
             return total_pengeluaran if total_pengeluaran is not None else 0
         except sqlite3.Error:
             return None
 
-    def readDailyExpenseAmount(self, connection : sqlite3.Connection) -> float:
+    def _readDistributionInRange(self, connection: sqlite3.Connection, start_time: float, end_time: float) -> dict:
         try:
-            # Dapatkan tanggal hari ini
-            today = datetime.now().date()
-            # Tentukan waktu awal dan akhir hari ini
-            today_start = datetime.combine(today, datetime.min.time())
-            today_end = datetime.combine(today, datetime.max.time())
-
-            # Query untuk mengambil total pengeluaran pada hari ini
-            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
-            cursor = connection.execute(query, (today_start.timestamp(), today_end.timestamp()))
-            total_pengeluaran = cursor.fetchone()[0]
+            query = f"SELECT category_id, SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ? GROUP BY category_id"
+            cursor = connection.execute(query, (start_time, end_time))
+            distribution_data = cursor.fetchall()
             cursor.close()
-
-            # Jika total_pengeluaran adalah None, ubah menjadi 0
-            return total_pengeluaran if total_pengeluaran is not None else 0
+            distribution_map = {}
+            for category_id, total_amount in distribution_data:
+                categoryData = SQLExpenseCategory().readById(connection, category_id)
+                distribution_map[categoryData.title] = total_amount
+            return distribution_map
         except sqlite3.Error:
             return None
-   
+
+    def readWeeklyExpenseAmount(self, connection: sqlite3.Connection) -> float:
+        today = datetime.now()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        return self._readExpenseInRange(connection, start_of_week.timestamp(), end_of_week.timestamp())
+
+    def readDailyExpenseAmount(self, connection: sqlite3.Connection) -> float:
+        today = datetime.now().date()
+        today_start = datetime.combine(today, datetime.min.time())
+        today_end = datetime.combine(today, datetime.max.time())
+        return self._readExpenseInRange(connection, today_start.timestamp(), today_end.timestamp())
+
     def readMonthlyExpenseAmount(self, connection: sqlite3.Connection) -> float:
-        try:
-            # Dapatkan tanggal bulan ini
-            today = datetime.now()
-            start_of_month = today.replace(day=1)
-            end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1, day=1) - timedelta(days=1)
-
-            # Query untuk mengambil total pengeluaran bulanan
-            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
-            cursor = connection.execute(query, (start_of_month.timestamp(), end_of_month.timestamp()))
-            total_pengeluaran = cursor.fetchone()[0]
-            cursor.close()
-
-            # Jika total_pengeluaran adalah None, ubah menjadi 0
-            return total_pengeluaran if total_pengeluaran is not None else 0
-        except sqlite3.Error:
-            return None
+        today = datetime.now()
+        start_of_month = today.replace(day=1)
+        end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1, day=1) - timedelta(days=1)
+        return self._readExpenseInRange(connection, start_of_month.timestamp(), end_of_month.timestamp())
 
     def readYearlyExpenseAmount(self, connection: sqlite3.Connection) -> float:
-        try:
-            # Dapatkan tanggal tahun ini
-            today = datetime.now()
-            start_of_year = today.replace(month=1, day=1)
-            end_of_year = today.replace(month=12, day=31)
+        today = datetime.now()
+        start_of_year = today.replace(month=1, day=1)
+        end_of_year = today.replace(month=12, day=31)
+        return self._readExpenseInRange(connection, start_of_year.timestamp(), end_of_year.timestamp())
 
-            # Query untuk mengambil total pengeluaran tahunan
-            query = f"SELECT SUM(amount) FROM {tableName} WHERE time BETWEEN ? AND ?"
-            cursor = connection.execute(query, (start_of_year.timestamp(), end_of_year.timestamp()))
-            total_pengeluaran = cursor.fetchone()[0]
-            cursor.close()
+    def readWeeklyDistribution(self, connection: sqlite3.Connection) -> dict:
+        today = datetime.now()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        return self._readDistributionInRange(connection, start_of_week.timestamp(), end_of_week.timestamp())
 
-            # Jika total_pengeluaran adalah None, ubah menjadi 0
-            return total_pengeluaran if total_pengeluaran is not None else 0
-        except sqlite3.Error:
-            return None
+    def readMonthlyDistribution(self, connection: sqlite3.Connection) -> dict:
+        today = datetime.now()
+        start_of_month = today.replace(day=1)
+        end_of_month = start_of_month.replace(month=start_of_month.month % 12 + 1, day=1) - timedelta(days=1)
+        return self._readDistributionInRange(connection, start_of_month.timestamp(), end_of_month.timestamp())
 
+    def readYearlyDistribution(self, connection: sqlite3.Connection) -> dict:
+        today = datetime.now()
+        start_of_year = today.replace(month=1, day=1)
+        end_of_year = today.replace(month=12, day=31)
+        return self._readDistributionInRange(connection, start_of_year.timestamp(), end_of_year.timestamp())
+
+        
     def insert(self, connection: sqlite3.Connection, data: ModelExpense):
         '''Insert expense data into the database'''
         try:
