@@ -1,22 +1,17 @@
-from UI.routes.home import UI_homepage
 from database.db import KDatabase
 from UI.utility.ui_print import kprintInfo
 from UI.utility.clearscreen import clrscreen
-
-def __raise_module_error(module_name):
-    raise Exception(f"{module_name} not found, install it using 'pip install {module_name}'")
 
 def __CHECK_modules():
     try:
         import matplotlib
         del matplotlib
-    except:
-        __raise_module_error('matplotlib')
-    try:
         import numpy as np
         del np
+        import tzlocal
+        del tzlocal
     except:
-        __raise_module_error('numpy') 
+        raise Exception(f"All required module not installed\nRead 'readme.txt'")
     
 def __CHECK_database():
     try:
@@ -36,7 +31,10 @@ def CHECK_isEverythingOkay():
         return False
     
 if __name__ == "__main__":
+    clrscreen()
     if CHECK_isEverythingOkay() is True:
+        from UI.routes.home import UI_homepage
+
         db = KDatabase()
         UI_homepage(db)
         if KDatabase.isExist():
