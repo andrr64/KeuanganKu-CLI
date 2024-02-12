@@ -7,6 +7,7 @@ CHECK_*     : penamaan untuk fungsi yang memiliki fungsi memeriksa sesuati, retu
 DB_*        : penamaan untuk fungsi yang menjalankan operasi CRUD ke database
 VAR_*       : penamaan untuk fungsi yang memanipulasi variabel global
 UI_*        : penamaan untuk fungsi yang menampilkan user interface
+ROUTE_*     : penamaan untuk fungsi yang memanggil UI dari file lain
 
 untuk * gunakan format camelCase contohnya:
 CHECK_isEverythingOk()

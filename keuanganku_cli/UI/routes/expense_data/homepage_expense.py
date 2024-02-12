@@ -56,7 +56,7 @@ def UI_printWithData(
         kprint(f"No| {ModelExpense.printTableColumn()}")
         UI_printExpenseData(expenseData[startIndex:endIndex], startIndex + 1)
 
-def DB_refreshExpenseData(db : KDatabase):
+def VAR_refreshExpenseData(db : KDatabase):
     global expenseData
     global printDataFunction, pageNumber, pageLength, startIndex, endIndex, maxDataLength
     global weeklyExpenseAmount, dailyExpenseAmount, monthlyExpenseAmount, yearlyExpenseAmount
@@ -116,7 +116,7 @@ def UI_graph(db : KDatabase):
             break
 
 def UI_expense(db : KDatabase):
-    DB_refreshExpenseData(db)
+    VAR_refreshExpenseData(db)
     while True:
         clrscreen()
         kline()
@@ -136,16 +136,16 @@ def UI_expense(db : KDatabase):
             if choosedIndex >= startIndex and choosedIndex < endIndex:
                 exitStatus = UI_showExpenseDetail(data=expenseData[choosedIndex], conn=db.connection)
                 if exitStatus:
-                    DB_refreshExpenseData(db)
+                    VAR_refreshExpenseData(db)
         except:
             if userInput == "e":
                 return 
             elif userInput == "i":
                 dataCreated = UI_formNewExpense(db)
                 if dataCreated:
-                    DB_refreshExpenseData(db)
+                    VAR_refreshExpenseData(db)
             elif userInput == "r":
-                DB_refreshExpenseData(db)
+                VAR_refreshExpenseData(db)
             elif userInput == "c":
                 UI_homepageCategory(db)
             elif userInput == "g":
