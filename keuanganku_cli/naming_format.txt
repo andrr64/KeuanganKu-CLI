@@ -2,6 +2,7 @@ Version : 1.0
 Bahasa  : Indonesia
 Lang    : Indonesia
 
+Penamaan Fungsi
 __*         : penamaan untuk fungsi atau variabel privat : __CHECK, __routes
 CHECK_*     : penamaan untuk fungsi yang memiliki fungsi memeriksa sesuati, return boolean
 DB_*        : penamaan untuk fungsi yang menjalankan operasi CRUD ke database
@@ -9,7 +10,20 @@ VAR_*       : penamaan untuk fungsi yang memanipulasi variabel global
 UI_*        : penamaan untuk fungsi yang menampilkan user interface
 ROUTE_*     : penamaan untuk fungsi yang memanggil UI dari file lain
 
-untuk * gunakan format camelCase contohnya:
+Untuk * gunakan format camelCase contohnya:
 CHECK_isEverythingOk()
 UI_homepage()
 DB_refreshData()
+
+Penamaan variabel
+global_*    : penamaan untuk variabel global
+b_*         : penamaan untuk variabel bertipe data boolean
+ni_*        : penamaan untuk variabel bertipe data bilangan bulat
+nf_*        : penamaan untuk variabel bertipe data bilangan desimal
+s_*         : penamaan untuk variabel bertipe data string
+dyn_*       : penamaan untuk variabel bertipe data dynamic
+ls_*        : penamaan untuk variabel bertipe data list
+
+Contoh
+global_ls_expenseData = ()
+dyn_
