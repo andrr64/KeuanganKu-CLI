@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from database.model.model_expense_category import ModelExpenseCategory
+from tzlocal import get_localzone
 
 @dataclass
 class ModelExpense:
@@ -21,7 +22,13 @@ class ModelExpense:
 
     @property
     def timeToStringFormat(self) -> str:
-        return datetime.strftime(self.time, "%d/%m/%y %H:%S")
+        # Mendapatkan offset zona waktu dari sistem
+        local_timezone = get_localzone()
+        system_offset = local_timezone.utcoffset(datetime.now()).total_seconds() / 3600
+        
+        # Menambahkan zona waktu dengan offset sistem
+        time_with_offset = self.time + timedelta(hours=system_offset)
+        return time_with_offset.strftime("%d/%m/%y %H:%M:%S") 
     
     @property
     def timeToStringFormatSimple(self) -> str:
