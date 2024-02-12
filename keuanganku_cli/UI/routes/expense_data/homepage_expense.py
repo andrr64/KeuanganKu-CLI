@@ -95,6 +95,26 @@ def DB_refreshExpenseData(db : KDatabase):
         monthlyExpenseAmount    = SQLExpense().readMonthlyExpenseAmount(db.connection)
         yearlyExpenseAmount     = SQLExpense().readYearlyExpenseAmount(db.connection)
 
+def UI_graph(db : KDatabase):
+    while True:
+        clrscreen()
+        kprint('Graph')
+        kline()
+        kprint('1. Weekly Distribution')
+        kprint('2. Monthly Distribution')
+        kprint('3. Yearly Distribution')
+        kprint('4. Back')
+        kline()
+        userInput = getAny('Command')
+        if userInput == '1':
+            UI_weeklyDistributionGraph(db)
+        elif userInput == '2':
+            UI_monthlyDistributionGraph(db)
+        elif userInput == '3':
+            UI_yearlyDistributionGraph(db)
+        elif userInput == '4':
+            break
+
 def UI_expense(db : KDatabase):
     DB_refreshExpenseData(db)
     while True:
@@ -104,9 +124,11 @@ def UI_expense(db : KDatabase):
         kline()
         printDataFunction()        
         kline()
+        kprint('Command')
         kprint("i : Insert\t| s : Summary\t| c : Category") 
         kprint("e : Back\t| h : Help\t| r : Refresh") 
-        kprint("g : Graph\t")
+        kprint("s : Sort by") 
+        kprint("g : Graph\t| f : Filter\t| fc: Fast Command")
         kline()
         userInput = str.lower(getAny(prompt='Command'))
         try:
@@ -123,25 +145,8 @@ def UI_expense(db : KDatabase):
                 if dataCreated:
                     DB_refreshExpenseData(db)
             elif userInput == "r":
-                pass
+                DB_refreshExpenseData(db)
             elif userInput == "c":
                 UI_homepageCategory(db)
             elif userInput == "g":
-                while True:
-                    clrscreen()
-                    kprint('Graph')
-                    kline()
-                    kprint('1. Weekly Distribution')
-                    kprint('2. Monthly Distribution')
-                    kprint('3. Yearly Distribution')
-                    kprint('4. Back')
-                    kline()
-                    userInput = getAny('Command')
-                    if userInput == '1':
-                        UI_weeklyDistributionGraph(db)
-                    elif userInput == '2':
-                        UI_monthlyDistributionGraph(db)
-                    elif userInput == '3':
-                        UI_yearlyDistributionGraph(db)
-                    elif userInput == '4':
-                        break
+                UI_graph(db)
