@@ -1,6 +1,7 @@
 from database.db import KDatabase
 from database.helper.sql_expense_category import SQLExpenseCategory
 
+from UI.routes.expense_data.routes.routes.insert_category import b_UI_insertCategory
 from UI.utility.clearscreen import clrscreen
 from UI.utility.ui_print import kprint, kline, kprintInfo
 from UI.user_input.input import getAny
@@ -12,8 +13,16 @@ global_ni_expenseCategoryLength = 0
 def VAR_updateExpenseCategoryData(db : KDatabase):
     global global_ls_expenseCategory
     global global_ni_expenseCategoryLength
-    global_ls_expenseCategory = SQLExpenseCategory().readAll(db.connection)
+    global_ls_expenseCategory = SQLExpenseCategory().ls_readAll(db.connection)
     global_ni_expenseCategoryLength = len(global_ls_expenseCategory)
+
+def b_ROUTE_insertCategory(db : KDatabase):
+    try:
+        return b_UI_insertCategory(db)
+    except Exception as e:
+        clrscreen()
+        kprintInfo(e)
+    return False
 
 def UI_homepageCategory(db : KDatabase):
     global global_ls_expenseCategory
@@ -41,6 +50,9 @@ def UI_homepageCategory(db : KDatabase):
             except:
                 if dyn_userInput == 'e':
                     break
+                elif dyn_userInput == 'i':
+                    if b_ROUTE_insertCategory(db):
+                        VAR_updateExpenseCategoryData(db)
     except Exception as e:
         clrscreen()
         kprintInfo(e)
