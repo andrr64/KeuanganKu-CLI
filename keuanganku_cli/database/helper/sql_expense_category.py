@@ -20,7 +20,7 @@ class SQLExpenseCategory:
     def __init__(self):
         pass
 
-    def readById(self, db: sqlite3.Connection, category_id: int) -> (ModelExpenseCategory | None):
+    def dyn_readById(self, db: sqlite3.Connection, category_id: int) -> (ModelExpenseCategory | None):
         '''Read expense category data by id'''
         cursor = db.execute(f'SELECT * FROM {tableName} WHERE id = ?', (category_id,))
         row = cursor.fetchone()
@@ -29,7 +29,7 @@ class SQLExpenseCategory:
             return ModelExpenseCategory(id=row[0], title=row[1])
         return None
 
-    def readAll(self, db: sqlite3.Connection):
+    def ls_readAll(self, db: sqlite3.Connection):
         '''Return list of expense category (None if empty)'''
         cursor = db.execute(f'SELECT * FROM {tableName}')
         rows = cursor.fetchall()
@@ -47,7 +47,7 @@ class SQLExpenseCategory:
             )
         return categoryList
 
-    def update(self, db: sqlite3.Connection, data: ModelExpenseCategory) -> bool:
+    def b_update(self, db: sqlite3.Connection, data: ModelExpenseCategory) -> bool:
             '''Update expense category data in the database'''
             try:
                 db.execute(f"UPDATE {tableName} SET judul = ? WHERE id = ?", (data.title, data.id))
@@ -57,7 +57,7 @@ class SQLExpenseCategory:
                 db.rollback()
                 return False
 
-    def delete(self, db: sqlite3.Connection, data: ModelExpenseCategory) -> bool:
+    def b_delete(self, db: sqlite3.Connection, data: ModelExpenseCategory) -> bool:
         '''Delete expense category data from the database'''
         try:
             db.execute(f"DELETE FROM {tableName} WHERE id = ?", (data.id,))
@@ -67,10 +67,16 @@ class SQLExpenseCategory:
             db.rollback()
             return False
 
-    def insert(self, db: sqlite3.Connection, data: ModelExpenseCategory):
+    def b_insert(self, db: sqlite3.Connection, data: ModelExpenseCategory):
         '''Insert expense category data into the database'''
-        db.execute(f"INSERT INTO {tableName} (title, active) VALUES (?, ?)", (data.title, data.active))
-        db.commit()
+        try:
+            db.execute(f"INSERT INTO {tableName} (title, active) VALUES (?, ?)", (data.title, data.active))
+            db.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"Error occurred: {e}")
+            db.rollback()
+            return False
 
     def initTable(self, connection: sqlite3.Connection):
         # Buat tabel jika belum ada

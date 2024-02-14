@@ -39,7 +39,7 @@ class SQLExpense:
         expenseList = []
         for data in rows:
             # 4 = category_id
-            categoryData = SQLExpenseCategory().readById(connection, data[4])
+            categoryData = SQLExpenseCategory().dyn_readById(connection, data[4])
             expenseList.append(ModelExpense.fromTuple(data, categoryData))
         return expenseList
 
@@ -70,7 +70,7 @@ class SQLExpense:
             cursor.close()
             distribution_map = {}
             for category_id, total_amount in distribution_data:
-                categoryData = SQLExpenseCategory().readById(connection, category_id)
+                categoryData = SQLExpenseCategory().dyn_readById(connection, category_id)
                 distribution_map[categoryData.title] = total_amount
             return distribution_map
         except sqlite3.Error:

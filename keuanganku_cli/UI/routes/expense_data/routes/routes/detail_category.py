@@ -8,7 +8,7 @@ from UI.utility.ui_print import kprint, kprintInfo, kline
 
 def DB_deleteExpenseCategory(db : KDatabase, data : ModelExpenseCategory) -> bool:
     clrscreen()
-    if SQLExpenseCategory().delete(db.connection, data):
+    if SQLExpenseCategory().b_delete(db.connection, data):
         kprintInfo('Operation success ^_^')
         return True
     kprintInfo('Something wrong...')
