@@ -7,21 +7,20 @@ from database.db import KDatabase
 from database.helper.sql_expense import SQLExpense, ModelExpense
 import random
 
-def generate_random_hex_color() -> str:
+def s_generateRandomHexColor() -> str:
     """Generate a random hexadecimal color code."""
     # Menghasilkan 6 digit hex color code secara acak
     return '#' + ''.join(random.choices('0123456789ABCDEF', k=6))
 
-def generate_chart_data(expense_distribution: dict):
+def dyn_generateChartData(expense_distribution: dict):
     data_length = len(expense_distribution)
-    color = [generate_random_hex_color() for _ in range(data_length)]
+    color = [s_generateRandomHexColor() for _ in range(data_length)]
     explosion = [0.05 for _ in range(data_length)]
 
     pie_data = list(expense_distribution.values())
     pie_labels = [f'{key}\n({value:,.0f})' for key, value in expense_distribution.items()]
 
     return pie_data, pie_labels, color, explosion
-
 
 def UI_distribution_graph(db: KDatabase, title: str, distribution_func):
     expense_distribution = distribution_func(db.connection)
@@ -31,7 +30,7 @@ def UI_distribution_graph(db: KDatabase, title: str, distribution_func):
         kprintInfo('Something wrong...')
         return
 
-    pie_data, pie_labels, color, explosion = generate_chart_data(expense_distribution)
+    pie_data, pie_labels, color, explosion = dyn_generateChartData(expense_distribution)
 
     plt.pie(
         pie_data,
@@ -54,14 +53,11 @@ def UI_distribution_graph(db: KDatabase, title: str, distribution_func):
     # Displaying Chart
     plt.show()
 
-
 def UI_weeklyDistributionGraph(db: KDatabase):
     UI_distribution_graph(db, 'Weekly Expense Distribution', SQLExpense().readWeeklyDistribution)
 
-
 def UI_monthlyDistributionGraph(db: KDatabase):
     UI_distribution_graph(db, 'Monthly Expense Distribution', SQLExpense().readMonthlyDistribution)
-
 
 def UI_yearlyDistributionGraph(db: KDatabase):
     UI_distribution_graph(db, 'Yearly Expense Distribution', SQLExpense().readYearlyDistribution)

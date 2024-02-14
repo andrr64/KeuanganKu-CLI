@@ -20,10 +20,10 @@ def UI_showExpenseDetail(data : ModelExpense, conn : sql.Connection):
         kline()
         kprintCenter("e : back | d : Delete | c : change", 50)  
         kline()
-        userInput = str.lower(getAny('Command'))        
-        if userInput == "e":
+        dyn_userInput = str.lower(getAny('Command'))        
+        if dyn_userInput == "e":
             return False
-        elif userInput == "d":
+        elif dyn_userInput == "d":
             clrscreen()
             if str.lower(getAny('Are you sure? [Y/n]')) == 'y':
                 clrscreen()

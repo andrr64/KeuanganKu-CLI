@@ -8,7 +8,7 @@ from error.range_error import *
 from database.db import KDatabase
 
 from UI.routes.income_data.income_data import UI_income
-from UI.routes.expense_data.homepage_expense import UI_expense
+from UI.routes.expense_data.expense import UI_expense
 
 def ROUTE_income(db : KDatabase):
     UI_income(db)
@@ -43,9 +43,9 @@ def UI_homepage(db : KDatabase):
             kprint(f"{i + 1}. {__routes__[i][0]}")
         kline()
         try:
-            userInput = getInt(f"Choose [1-{__routes_length__}] : ", range(1, __routes_length__ + 1))
+            dyn_userInput = getInt(f"Choose [1-{__routes_length__}] : ", range(1, __routes_length__ + 1))
             clrscreen()
-            if __routes__[userInput-1][1](db) == 0:
+            if __routes__[dyn_userInput-1][1](db) == 0:
                 break
         except:
             clrscreen()
