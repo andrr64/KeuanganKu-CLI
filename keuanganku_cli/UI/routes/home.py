@@ -8,7 +8,7 @@ from error.range_error import *
 from database.db import KDatabase
 
 from UI.routes.income_data.income_data import UI_income
-from UI.routes.expense_data.expense import UI_expense
+from UI.routes.expense_data.home_expense import UI_expense
 
 def ROUTE_income(db : KDatabase):
     UI_income(db)
@@ -47,6 +47,6 @@ def UI_homepage(db : KDatabase):
             clrscreen()
             if __routes__[dyn_userInput-1][1](db) == 0:
                 break
-        except:
+        except Exception as err:
             clrscreen()
-            KErrorInvalidInputType.handler()
+            kprintInfo(err)
