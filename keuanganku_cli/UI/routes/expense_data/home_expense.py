@@ -18,24 +18,19 @@ global_ni_maxDataLength = 25
 
 global_ni_pageNumber, global_ni_pageLength = 1,1
 global_ni_startIndex, global_ni_endIndex = 0,0
-
+global_s_sortDataBy = ''
 global_nf_dailyExpenseAmount, global_nf_weeklyExpenseAmount = 0,0
 global_nf_monthlyExpenseAmount, global_nf_yearlyExpenseAmount = 0,0
 
-def UI_printExpenseData(listOfExpense, startNumber):
-    ni_index = startNumber
-    for dyn_data in listOfExpense:
-        kprint(f'{ni_index} | {dyn_data}')
-        ni_index += 1
 
-def UI_printEmptyData():
+def __UI_printEmptyData():
     print()
     print()
     kprintCenter('Empty data', 50)
     print()
     print()
 
-def UI_printWithData(
+def __UI_printWithData(
         ls_expenseData : list[ModelExpense],
         ni_startIndex : int,
         ni_endIndex : int,
@@ -50,24 +45,25 @@ def UI_printWithData(
         s_yearlyExpenseAmount = f'{nf_yearlyExpenseAmount:,.2f}'
 
         kprint("SUMMARY")
-        kprint(f'Today\t\t: {s_dailyExpensesAmount:<20}Weekly\t: {s_weeklyExpensesAmount:<20}')
-        kprint(f'Monthly\t: {s_monthlyExpenseAmount:<20}Yearly\t: {s_yearlyExpenseAmount:<20}')
+        kprint(f'Today\t\t: {s_dailyExpensesAmount:<20}Monthly\t: {s_monthlyExpenseAmount:<20}')
+        kprint(f'Weekly\t\t: {s_weeklyExpensesAmount:<20}Yearly\t: {s_yearlyExpenseAmount:<20}')
         kline()
         kprint(f"No| {ModelExpense.printTableColumn()}")
-        UI_printExpenseData(ls_expenseData[ni_startIndex:ni_endIndex], ni_startIndex + 1)
+        for ni_index, dyn_data in enumerate(ls_expenseData[ni_startIndex:ni_endIndex]):
+            kprint(f'{ni_index + 1} | {dyn_data}')
 
-def VAR_refreshExpenseData(db : KDatabase):
+def __VAR_refreshExpenseData(db : KDatabase):
     global global_ls_expenseData
     global global_fnc_printDataFunction, global_ni_pageNumber, global_ni_pageLength, global_ni_startIndex, global_ni_endIndex, global_ni_maxDataLength
     global global_nf_weeklyExpenseAmount, global_nf_dailyExpenseAmount, global_nf_monthlyExpenseAmount, global_nf_yearlyExpenseAmount
     
     global_ls_expenseData = SQLExpense().read_all(connection=db.connection)
     if global_ls_expenseData is None:
-        ni_expenseDataLength = []
-        global_fnc_printDataFunction = UI_printEmptyData
+        ni_expenseDataLength = 0
+        global_fnc_printDataFunction = __UI_printEmptyData
     else:
         def printWithData():
-            UI_printWithData(
+            __UI_printWithData(
                 global_ls_expenseData,
                 global_ni_startIndex,
                 global_ni_endIndex,
@@ -95,7 +91,7 @@ def VAR_refreshExpenseData(db : KDatabase):
         global_nf_monthlyExpenseAmount    = SQLExpense().readMonthlyExpenseAmount(db.connection)
         global_nf_yearlyExpenseAmount     = SQLExpense().readYearlyExpenseAmount(db.connection)
 
-def UI_graph(db : KDatabase):
+def __UI_graph(db : KDatabase):
     while True:
         clrscreen()
         kprint('Graph')
@@ -116,7 +112,7 @@ def UI_graph(db : KDatabase):
             break
 
 def UI_expense(db : KDatabase):
-    VAR_refreshExpenseData(db)
+    __VAR_refreshExpenseData(db)
     while True:
         clrscreen()
         kline()
@@ -125,7 +121,7 @@ def UI_expense(db : KDatabase):
         global_fnc_printDataFunction()        
         kline()
         kprint('Command')
-        kprint("i : Insert\t| s : Summary\t| c : Category") 
+        kprint("i : Insert\t| sm : Summary\t| c : Category") 
         kprint("e : Back\t| h : Help\t| r : Refresh") 
         kprint("s : Sort by") 
         kprint("g : Graph\t| f : Filter\t| fc: Fast Command")
@@ -136,17 +132,17 @@ def UI_expense(db : KDatabase):
             if ni_choosedIndex >= global_ni_startIndex and ni_choosedIndex < global_ni_endIndex:
                 exitStatus = UI_showExpenseDetail(data=global_ls_expenseData[ni_choosedIndex], conn=db.connection)
                 if exitStatus:
-                    VAR_refreshExpenseData(db)
+                    __VAR_refreshExpenseData(db)
         except:
             if dyn_userInput == "e":
                 return 
             elif dyn_userInput == "i":
                 b_dataCreated = UI_formNewExpense(db)
                 if b_dataCreated:
-                    VAR_refreshExpenseData(db)
+                    __VAR_refreshExpenseData(db)
             elif dyn_userInput == "r":
-                VAR_refreshExpenseData(db)
+                __VAR_refreshExpenseData(db)
             elif dyn_userInput == "c":
                 UI_homepageCategory(db)
             elif dyn_userInput == "g":
-                UI_graph(db)
+                __UI_graph(db)
